@@ -2,7 +2,6 @@
 using System.Data;
 using System.Text;
 using TicketPlatform.Core.Entities;
-using TicketPlatform.Core.EntitiesS;
 using TicketPlatform.Core.Interfaces;
 using TicketPlatform.Infrastructure.Data;
 

@@ -8,7 +8,7 @@ namespace TicketPlatform.Core.EntitiesS
 {
     public class Ticket
     {
-        public int Id { get; set; } = 1;
+        public int Id { get; set; }
         public string Description { get; set; } = string.Empty;
         public string Priority { get; set; } = string.Empty;
     }

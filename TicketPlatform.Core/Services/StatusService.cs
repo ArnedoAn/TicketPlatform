@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TicketPlatform.Core.DTO
+namespace TicketPlatform.Core.Services
 {
-    internal class Class1
+    internal class StatusService
     {
     }
 }

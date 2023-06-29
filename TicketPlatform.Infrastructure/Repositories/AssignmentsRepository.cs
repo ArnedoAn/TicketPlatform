@@ -24,13 +24,15 @@ namespace TicketPlatform.Infrastructure.Repositories
 
                         command.Parameters.AddWithValue("@idUsuario", assignment.User.Id);
                         command.Parameters.AddWithValue("@idTicket", assignment.Ticket.Id);
-                        command.Parameters.AddWithValue("@idEstado", assignment.Status);
+                        command.Parameters.AddWithValue("@idEstadoTicket", assignment.Status);
 
-                        await command.ExecuteNonQueryAsync();
+                        var rowsAffected = await command.ExecuteNonQueryAsync();
+
+                        if (rowsAffected > 0) { return true; } else { throw new Exception("No se creó"); }
+
                     }
                 }
 
-                return true;
             }
             catch (Exception ex)
             {
@@ -51,11 +53,13 @@ namespace TicketPlatform.Infrastructure.Repositories
                         await connection.OpenAsync();
                         command.Parameters.AddWithValue("@id", id);
 
-                        await command.ExecuteNonQueryAsync();
+                        var rowsAffected = await command.ExecuteNonQueryAsync();
+
+                        if (rowsAffected > 0) { return true; } else { throw new Exception("No se eliminó"); }
+
                     }
                 }
 
-                return true;
             }
             catch (Exception ex)
             {
@@ -78,7 +82,7 @@ namespace TicketPlatform.Infrastructure.Repositories
                     {
 
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@id", id);
+                        command.Parameters.AddWithValue("@AsignacionId", id);
 
                         await connection.OpenAsync();
 
@@ -100,12 +104,13 @@ namespace TicketPlatform.Infrastructure.Repositories
                                 {
                                     Id = reader.GetInt32("idTicket"),
                                     Priority = reader.GetString("Prioridad"),
-                                    Description = reader.GetString("Description")
+                                    Description = reader.GetString("Descripcion")
                                 };
 
-                                AssignmentsUnique.Status = reader.GetInt32("ïdEstado");
+                                AssignmentsUnique.Status = reader.GetInt32("idEstado");
                                 AssignmentsUnique.Ticket = ticket;
                                 AssignmentsUnique.User = user;
+                                AssignmentsUnique.Id = reader.GetInt32("id");
 
                             }
 
@@ -160,7 +165,8 @@ namespace TicketPlatform.Infrastructure.Repositories
                                 {
                                     Ticket = ticket,
                                     User = user,
-                                    Status = reader.GetInt32("idEstado")
+                                    Status = reader.GetInt32("idEstado"),
+                                    Id = reader.GetInt32("id")
                                 });
                             }
 
@@ -184,6 +190,11 @@ namespace TicketPlatform.Infrastructure.Repositories
         {
             try
             {
+                Console.WriteLine("Valor de @idUsuario: " + assignment.User.Id);
+                Console.WriteLine("Valor de @idTicket: " + assignment.Ticket.Id);
+                Console.WriteLine("Valor de @idEstado: " + assignment.Status);
+                Console.WriteLine("Valor de @id: " + assignment.Id);
+
 
                 using (var connection = new SqlConnection(_dbContext.ConnectionString()))
                 {
@@ -195,12 +206,14 @@ namespace TicketPlatform.Infrastructure.Repositories
                         command.Parameters.AddWithValue("@idUsuario", assignment.User.Id);
                         command.Parameters.AddWithValue("@idTicket", assignment.Ticket.Id);
                         command.Parameters.AddWithValue("@idEstado", assignment.Status);
+                        command.Parameters.AddWithValue("@id", assignment.Id);
 
-                        await command.ExecuteNonQueryAsync();
+                        var rowsAffected = await command.ExecuteNonQueryAsync();
+
+                        if (rowsAffected > 0) { return true; } else { throw new Exception("No se actualizó"); }
                     }
                 }
 
-                return true;
             }
             catch (Exception ex)
             {

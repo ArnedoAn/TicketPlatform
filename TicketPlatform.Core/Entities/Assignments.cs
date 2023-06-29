@@ -6,7 +6,7 @@ namespace TicketPlatform.Core.Entities
     {
         public Assignments() { }
        
-        public int id { get; set; } = 1;
+        public int Id { get; set; }
         public Ticket Ticket { get; set; } = new Ticket();
         public User User { get; set; } = new User();
 

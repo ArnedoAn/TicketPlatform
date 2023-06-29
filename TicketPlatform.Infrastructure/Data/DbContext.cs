@@ -11,6 +11,7 @@ namespace TicketPlatform.Infrastructure.Data
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
 
             connectionString = builder.GetConnectionString("dbConnection") ?? string.Empty;
+
         }
 
         public string ConnectionString()

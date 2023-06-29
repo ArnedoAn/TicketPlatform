@@ -82,15 +82,16 @@ namespace TicketPlatform.Infrastructure.Repositories
                     {
 
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@AsignacionId", id);
 
                         await connection.OpenAsync();
+
+                        command.Parameters.AddWithValue("@AsignacionId", id);
 
                         await command.ExecuteNonQueryAsync();
 
                         using (var reader = await command.ExecuteReaderAsync())
                         {
-                            while (await reader.ReadAsync())
+                            if (await reader.ReadAsync())
                             {
 
                                 User user = new()

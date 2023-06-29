@@ -1,12 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TicketPlatform.Core.Entities;
+using TicketPlatform.Core.Interfaces;
 
 namespace TicketPlatform.Core.Services
 {
-    internal class StatusService
+    public class StatusService : IStatusService
     {
+
+        private readonly IStatusRepository _statusRepository;
+
+        public StatusService(IStatusRepository statusRepository)
+        {
+            _statusRepository = statusRepository;
+        }
+
+        public async Task<IEnumerable<Status>> GetStatuses()
+        {
+            return await _statusRepository.GetAllStatus();
+        }
     }
 }

@@ -9,6 +9,6 @@ namespace TicketPlatform.Core.Interfaces
 {
     public interface IStatusService
     {
-        Task<List<Status>> GetStatuses();
+        Task<IEnumerable<Status>> GetStatuses();
     }
 }

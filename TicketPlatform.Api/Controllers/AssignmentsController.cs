@@ -19,7 +19,7 @@ namespace TicketPlatform.Api.Controllers
         public async Task<IActionResult> GetAssigment(int id)
         {
             var assigment = await _assigmentService.GetAssignment(id);
-            if (assigment.Id == 0) { return Ok(assigment); } else { return BadRequest(); }
+            if (assigment.Id != 0) { return Ok(assigment); } else { return BadRequest("No existe dicha asignacion"); } 
         }
 
         [HttpGet]

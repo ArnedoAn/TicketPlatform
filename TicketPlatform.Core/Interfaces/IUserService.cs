@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TicketPlatform.Core.DTOs;
 using TicketPlatform.Core.Entities;
 
 namespace TicketPlatform.Core.Interfaces
 {
     public interface IUserService
     {
-        Task<List<User>> GetAllUsers();
+        Task<IEnumerable<User>> GetAllUsers();
 
         Task<User> GetUserById(int id);
 
-        Task<bool> UpdateUser(User user);
+        Task<bool> UpdateUser(UsersPutDto userDto);
 
         Task<bool> DeleteUser(int id);
 
-        Task<bool> CreateUser(User user);
+        Task<bool> CreateUser(UsersPostDto userDto);
     }
 }

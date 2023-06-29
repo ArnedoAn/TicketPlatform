@@ -22,14 +22,14 @@ namespace TicketPlatform.Infrastructure.Repositories
             {
                 using (var connection = new SqlConnection(_dbContext.ConnectionString()))
                 {
-                    using (var command = new SqlCommand("sp_ListarEstadoTicket", connection))
+                    using (var command = new SqlCommand("sp_ListarEstados", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         await connection.OpenAsync();
 
                         using (var reader = await command.ExecuteReaderAsync())
                         {
-                            if (await reader.ReadAsync())
+                            while (await reader.ReadAsync())
                             {
                                 StatusList.Add(new Status
                                 {

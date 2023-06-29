@@ -7,8 +7,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+ 
+// Inyeccion de Dependencias (Repositorios y Servicios)
+
 builder.Services.AddTransient<IAssignmentsRepository, AssignmentsRepository>();
 builder.Services.AddTransient<IAssignmentService, AssigmentService>();
+builder.Services.AddTransient<IStatusService, StatusService>();
+builder.Services.AddTransient<IStatusRepository, StatusRepository>();
+builder.Services.AddTransient<ITicketRespository, TicketRepository>();
+builder.Services.AddTransient<ITicketService, TicketService>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

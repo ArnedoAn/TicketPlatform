@@ -80,11 +80,12 @@ namespace TicketPlatform.Infrastructure.Repositories
 
                         using (var reader = await command.ExecuteReaderAsync())
                         {
-                            while (await reader.ReadAsync())
+                            if (await reader.ReadAsync())
                             {
 
                                 UserUnique.Nombre = reader.GetString("Nombre");
                                 UserUnique.Cedula = reader.GetString("Cedula");
+                                UserUnique.Id = reader.GetInt32("id");
 
                             }
 
@@ -116,12 +117,13 @@ namespace TicketPlatform.Infrastructure.Repositories
 
                         using (var reader = await command.ExecuteReaderAsync())
                         {
-                            if (await reader.ReadAsync())
+                            while (await reader.ReadAsync())
                             {
                                 UserList.Add(new User
                                 {
                                     Nombre = reader.GetString("Nombre"),
-                                    Cedula = reader.GetString("Cedula")
+                                    Cedula = reader.GetString("Cedula"),
+                                    Id = reader.GetInt32("id")
                                 });
                             }
 

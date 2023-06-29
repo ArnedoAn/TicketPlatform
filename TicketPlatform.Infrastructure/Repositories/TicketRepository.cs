@@ -71,7 +71,7 @@ namespace TicketPlatform.Infrastructure.Repositories
             {
                 using (var connection = new SqlConnection(_dbContext.ConnectionString()))
                 {
-                    using (var command = new SqlCommand("sp_ObtenerUsuario", connection))
+                    using (var command = new SqlCommand("sp_ObtenerTicket", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         await connection.OpenAsync();
@@ -110,14 +110,14 @@ namespace TicketPlatform.Infrastructure.Repositories
             {
                 using (var connection = new SqlConnection(_dbContext.ConnectionString()))
                 {
-                    using (var command = new SqlCommand("sp_ListarUsuarios", connection))
+                    using (var command = new SqlCommand("sp_ListarTickets", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         await connection.OpenAsync();
 
                         using (var reader = await command.ExecuteReaderAsync())
                         {
-                            if (await reader.ReadAsync())
+                            while (await reader.ReadAsync())
                             {
                                 TicketList.Add(new Ticket
                                 {

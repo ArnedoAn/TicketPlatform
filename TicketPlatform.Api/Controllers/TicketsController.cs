@@ -21,14 +21,14 @@ namespace TicketPlatform.Api.Controllers
         {
             var TicketList = await _ticketService.GetTickets();
 
-            if (TicketList.Count() > 0) { return Ok(TicketList); } else { return BadRequest("No hay Tickets..."); }
+            if (TicketList.Count() > 0) { return Ok ( TicketList ); } else { return BadRequest(new { message = "No hay tickets disponibles" }); }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTicketById(int id)
         {
             var ticket = await _ticketService.GetTicketById(id);
-            if (ticket.Id != 0) { return Ok(ticket); } else { return BadRequest("No existe dicho ticket"); }
+            if (ticket.Id != 0) { return Ok( ticket ); } else { return BadRequest(new { message = "Ticket no existente" }); }
 
         }
 
@@ -36,14 +36,21 @@ namespace TicketPlatform.Api.Controllers
         public async Task<IActionResult> CreateTicket(TicketsPostDto ticketDto)
         {
             var result = await _ticketService.CreateTicket(ticketDto);
-            if (result) { return Ok("Creado correctamente"); } else { return BadRequest("No se pudo crear el ticket"); }
+            if (result != 0) { return Ok(result); } else { return BadRequest(new { message = "No se pudo crear ticket" }); }
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateTicket(TicketsPutDto ticketDto)
         {
             var result = await _ticketService.UpdateTicket(ticketDto);
-            if (result) { return Ok("Actualizdo correctamente"); } else { return BadRequest("No se pudo actualizar el ticket"); }
+            if (result) { return Ok(new { message = "Actualizado Correctamente" }); } else { return BadRequest(new { message = "No se pudo actualizar ticket" }); }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTicket(int id)
+        {
+            var result = await _ticketService.DeleteTicket(id);
+            if (result) { return Ok(new { message = "Eliminado Correctamente" }); } else { return BadRequest(new {message = "No se pudo eliminar ticket"}); } 
         }
     }
 }

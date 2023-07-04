@@ -34,7 +34,7 @@ namespace TicketPlatform.Infrastructure.Repositories
                                 StatusList.Add(new Status
                                 {
                                     Id = reader.GetInt32("Id"),
-                                    Name = reader.GetString("Nombre"),
+                                    Nombre = reader.GetString("Nombre"),
                                 });
                             }
 

@@ -19,7 +19,7 @@ namespace TicketPlatform.Api.Controllers
         public async Task<IActionResult> GetAssigment(int id)
         {
             var assigment = await _assigmentService.GetAssignment(id);
-            if (assigment.Id != 0) { return Ok(assigment); } else { return BadRequest("No existe dicha asignacion"); } 
+            if (assigment.Id != 0) { return Ok(assigment); } else { return BadRequest(new {message = "No existe dicha asignacion" }); }
         }
 
         [HttpGet]
@@ -37,7 +37,7 @@ namespace TicketPlatform.Api.Controllers
         public async Task<IActionResult> CreateAssigment([FromBody] AssignmentsPostDto assignmentDto)
         {
             var result = await _assigmentService.CreateAssigment(assignmentDto);
-            if (result) { return Ok("Creado Correctamente"); } else { return BadRequest("Hubo un error..."); }
+            if (result) { return Ok(new { meesage = "Creado Correctamente" }); } else { return BadRequest(new { meesage = "Hubo un error..." }); }
 
         }
 
@@ -46,14 +46,14 @@ namespace TicketPlatform.Api.Controllers
         {
             Console.WriteLine(assignmentDto.Id);
             var result = await _assigmentService.UpdateAssigment(assignmentDto);
-            if (result) { return Ok("Actualizado Correctamente"); } else { return BadRequest("Hubo un error..."); }
+            if (result) { return Ok(new { meesage = "Actualizado Correctamente" }); } else { return BadRequest(new { meesage = "Hubo un error..." }); }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAssignment(int id)
         {
             var result = await _assigmentService.DeleteAssigment(id);
-            if (result) { return Ok("Eliminado Correctamente"); } else { return BadRequest("Hubo un error..."); }
+            if (result) { return Ok(new { message = "Eliminado correctamente" }); } else { return BadRequest(new { message = "Hubo un error..." }); }
         }
     }
 }

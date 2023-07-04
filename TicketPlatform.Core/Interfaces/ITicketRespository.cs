@@ -15,7 +15,7 @@ namespace TicketPlatform.Core.Interfaces
 
         Task<bool> Update(Ticket ticket);
 
-        Task<bool> Create(Ticket ticket);
+        Task<int> Create(Ticket ticket);
 
         Task<bool> Delete(int id);
     }

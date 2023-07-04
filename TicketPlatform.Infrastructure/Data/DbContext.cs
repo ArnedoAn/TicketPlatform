@@ -10,7 +10,7 @@ namespace TicketPlatform.Infrastructure.Data
         {
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
 
-            connectionString = builder.GetConnectionString("dbConnection") ?? string.Empty;
+            connectionString = "Server=34.28.194.151,1433;Database=TicketDB;User ID=sqlserver;Password=Andres.23;";
 
         }
 

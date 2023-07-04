@@ -21,7 +21,7 @@ namespace TicketPlatform.Api.Controllers
         {
             var statusList = await _statusService.GetStatuses();
 
-            if (statusList.Count()  > 0) { return Ok(statusList); } else { return BadRequest("Hubo un error..."); }
+            if (statusList.Any()) { return Ok(statusList); } else { return BadRequest(new {message = "Hubo un error..." }); }
 
         }
         

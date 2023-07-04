@@ -21,7 +21,7 @@ namespace TicketPlatform.Api.Controllers
         {
             var users = await _userService.GetAllUsers();
 
-            if (users.Count() > 0) { return Ok(users); } else { return BadRequest("No hay usuarios disponibles"); }
+            if (users.Count() > 0) { return Ok( users ); } else { return BadRequest(new { message = "No hay usuarios disponibles" }); }
         }
 
         [HttpGet("{id}")]
@@ -29,7 +29,7 @@ namespace TicketPlatform.Api.Controllers
         {
             var user = await _userService.GetUserById(id);
 
-            if (user.Id != 0) { return Ok(user); } else { return BadRequest("No existe dicho usuario"); }
+            if (user.Id != 0) { return Ok( user ); } else { return BadRequest(new {message = "No existe usuario"}); }
         }
 
         [HttpPost]
@@ -38,14 +38,15 @@ namespace TicketPlatform.Api.Controllers
 
             var result = await _userService.CreateUser(userDto);
 
-            if (result) { return Ok("Creado Correctamente"); } else { return BadRequest("No se pudo crear"); }
+            if (result) { return Ok(new { message = "Creado Correctamente" }); } else { return BadRequest(new { message = "No se pudo crear" }); }
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateUser(UsersPutDto userDto)
         {
+            
             var result = await _userService.UpdateUser(userDto);
-            if (result) { return Ok("Actualizado Correctamente"); } else { return BadRequest("No se pudo actualizar"); }
+            if (result) { return Ok(new { message = "Actualizado Correctamente" }); } else { return BadRequest(new { message = "No se pudo actualizar" }); }
 
         }
 

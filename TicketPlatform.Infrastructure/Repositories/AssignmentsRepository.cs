@@ -24,7 +24,7 @@ namespace TicketPlatform.Infrastructure.Repositories
 
                         command.Parameters.AddWithValue("@idUsuario", assignment.User.Id);
                         command.Parameters.AddWithValue("@idTicket", assignment.Ticket.Id);
-                        command.Parameters.AddWithValue("@idEstadoTicket", assignment.Status);
+                        command.Parameters.AddWithValue("@idEstadoTicket", assignment.Estado.Id);
 
                         var rowsAffected = await command.ExecuteNonQueryAsync();
 
@@ -104,11 +104,17 @@ namespace TicketPlatform.Infrastructure.Repositories
                                 Ticket ticket = new()
                                 {
                                     Id = reader.GetInt32("idTicket"),
-                                    Priority = reader.GetString("Prioridad"),
-                                    Description = reader.GetString("Descripcion")
+                                    Prioridad = reader.GetString("Prioridad"),
+                                    Descripcion = reader.GetString("Descripcion")
                                 };
 
-                                AssignmentsUnique.Status = reader.GetInt32("idEstado");
+                                Status status = new()
+                                {
+                                    Id = reader.GetInt32("idEstado"),
+                                    Nombre = reader.GetString("EstadoTicket")
+                                };
+
+                                AssignmentsUnique.Estado = status;
                                 AssignmentsUnique.Ticket = ticket;
                                 AssignmentsUnique.User = user;
                                 AssignmentsUnique.Id = reader.GetInt32("id");
@@ -158,15 +164,21 @@ namespace TicketPlatform.Infrastructure.Repositories
                                 Ticket ticket = new()
                                 {
                                     Id = reader.GetInt32("idTicket"),
-                                    Priority = reader.GetString("Prioridad"),
-                                    Description = reader.GetString("Descripcion")
+                                    Prioridad = reader.GetString("Prioridad"),
+                                    Descripcion = reader.GetString("Descripcion")
+                                };
+
+                                Status status = new()
+                                {
+                                    Id = reader.GetInt32("idEstado"),
+                                    Nombre = reader.GetString("EstadoTicket")
                                 };
 
                                 AssignmentsList.Add(new Assignments
                                 {
                                     Ticket = ticket,
                                     User = user,
-                                    Status = reader.GetInt32("idEstado"),
+                                    Estado = status,
                                     Id = reader.GetInt32("id")
                                 });
                             }
@@ -191,12 +203,7 @@ namespace TicketPlatform.Infrastructure.Repositories
         {
             try
             {
-                Console.WriteLine("Valor de @idUsuario: " + assignment.User.Id);
-                Console.WriteLine("Valor de @idTicket: " + assignment.Ticket.Id);
-                Console.WriteLine("Valor de @idEstado: " + assignment.Status);
-                Console.WriteLine("Valor de @id: " + assignment.Id);
-
-
+              
                 using (var connection = new SqlConnection(_dbContext.ConnectionString()))
                 {
                     using (var command = new SqlCommand("sp_EditarAsignacion", connection))
@@ -206,7 +213,7 @@ namespace TicketPlatform.Infrastructure.Repositories
 
                         command.Parameters.AddWithValue("@idUsuario", assignment.User.Id);
                         command.Parameters.AddWithValue("@idTicket", assignment.Ticket.Id);
-                        command.Parameters.AddWithValue("@idEstado", assignment.Status);
+                        command.Parameters.AddWithValue("@idEstado", assignment.Estado.Id);
                         command.Parameters.AddWithValue("@id", assignment.Id);
 
                         var rowsAffected = await command.ExecuteNonQueryAsync();

@@ -9,7 +9,7 @@ namespace TicketPlatform.Core.Interfaces
 
         Task<Ticket> GetTicketById(int id);
 
-        Task<bool> CreateTicket(TicketsPostDto ticketDto);
+        Task<int> CreateTicket(TicketsPostDto ticketDto);
 
         Task<bool> UpdateTicket(TicketsPutDto ticketDto);
 

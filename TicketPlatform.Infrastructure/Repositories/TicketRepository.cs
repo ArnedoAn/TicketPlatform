@@ -11,8 +11,9 @@ namespace TicketPlatform.Infrastructure.Repositories
     {
         private readonly DbContext _dbContext = new();
 
-        public async Task<bool> Create(Ticket ticket)
+        public async Task<int> Create(Ticket ticket)
         {
+            int id = 0;
             try
             {
                 using (var connection = new SqlConnection(_dbContext.ConnectionString()))
@@ -22,19 +23,25 @@ namespace TicketPlatform.Infrastructure.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         await connection.OpenAsync();
 
-                        command.Parameters.AddWithValue("@Descripcion", ticket.Description);
-                        command.Parameters.AddWithValue("@Prioridad", ticket.Priority);
+                        command.Parameters.AddWithValue("@Descripcion", ticket.Descripcion);
+                        command.Parameters.AddWithValue("@Prioridad", ticket.Prioridad);
+
+                        var ticketIdParam = new SqlParameter("@TicketID", SqlDbType.Int);
+                        ticketIdParam.Direction = ParameterDirection.Output;
+                        command.Parameters.Add(ticketIdParam);
 
                         await command.ExecuteNonQueryAsync();
+
+                        id = (int)ticketIdParam.Value;
                     }
                 }
 
-                return true;
+                return id;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                return false;
+                return id;
             };
         }
 
@@ -44,7 +51,7 @@ namespace TicketPlatform.Infrastructure.Repositories
             {
                 using (var connection = new SqlConnection(_dbContext.ConnectionString()))
                 {
-                    using (var command = new SqlCommand("sp_EliminaTicket", connection))
+                    using (var command = new SqlCommand("sp_EliminarTicket", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         await connection.OpenAsync();
@@ -84,8 +91,8 @@ namespace TicketPlatform.Infrastructure.Repositories
                         {
                             while (await reader.ReadAsync())
                             {
-                                TicketUnique.Priority = reader.GetString("Prioridad");
-                                TicketUnique.Description = reader.GetString("Descripcion");
+                                TicketUnique.Prioridad = reader.GetString("Prioridad");
+                                TicketUnique.Descripcion = reader.GetString("Descripcion");
                                 TicketUnique.Id = reader.GetInt32("Id");
                             }
 
@@ -121,8 +128,8 @@ namespace TicketPlatform.Infrastructure.Repositories
                             {
                                 TicketList.Add(new Ticket
                                 {
-                                    Priority = reader.GetString("Prioridad"),
-                                    Description = reader.GetString("Descripcion"),
+                                    Prioridad = reader.GetString("Prioridad"),
+                                    Descripcion = reader.GetString("Descripcion"),
                                     Id = reader.GetInt32("Id")
                                 });
                             }
@@ -152,8 +159,8 @@ namespace TicketPlatform.Infrastructure.Repositories
                         await connection.OpenAsync();
 
                         command.Parameters.AddWithValue("@id", ticket.Id);
-                        command.Parameters.AddWithValue("@Descripcion", ticket.Description);
-                        command.Parameters.AddWithValue("@Prioridad", ticket.Priority);
+                        command.Parameters.AddWithValue("@Descripcion", ticket.Descripcion);
+                        command.Parameters.AddWithValue("@Prioridad", ticket.Prioridad);
 
                         await command.ExecuteNonQueryAsync();
                     }

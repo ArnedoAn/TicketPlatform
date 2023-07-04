@@ -14,12 +14,12 @@ namespace TicketPlatform.Core.Services
             _ticketRespository = ticketRespository;
         }
 
-        public async Task<bool> CreateTicket(TicketsPostDto ticketDto)
+        public async Task<int> CreateTicket(TicketsPostDto ticketDto)
         {
             Ticket ticket = new Ticket
             {
-                Description = ticketDto.Descripcion,
-                Priority = ticketDto.Prioridad
+                Descripcion = ticketDto.Descripcion,
+                Prioridad = ticketDto.Prioridad
             };
 
             return await _ticketRespository.Create(ticket);
@@ -45,8 +45,8 @@ namespace TicketPlatform.Core.Services
             Ticket ticket = new Ticket
             {
                 Id = ticketDto.Id,
-                Description = ticketDto.Descripcion,
-                Priority = ticketDto.Prioridad
+                Descripcion = ticketDto.Descripcion,
+                Prioridad = ticketDto.Prioridad
             };
 
             return await _ticketRespository.Update(ticket);

@@ -20,7 +20,7 @@ namespace TicketPlatform.Core.Services
         {
             var newAssignment = new Assignments
             {
-                Status = assignmentsDto.idStatus,
+                Estado = new Status { Id = assignmentsDto.idStatus },
                 Ticket = new Ticket { Id = assignmentsDto.idTicket },
                 User = new User { Id = assignmentsDto.idUser }
 
@@ -47,7 +47,7 @@ namespace TicketPlatform.Core.Services
         {
             var editedAssignment = new Assignments
             {
-                Status = assignmentsDto.idStatus,
+                Estado = new Status { Id =assignmentsDto.idStatus },
                 Ticket = new Ticket { Id = assignmentsDto.idTicket },
                 User = new User { Id = assignmentsDto.idUser },
                 Id = assignmentsDto.Id

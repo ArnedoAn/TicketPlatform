@@ -24,7 +24,7 @@ namespace TicketPlatform.Core.Services
             User user = new User
             {
                 Cedula = userDto.Cedula,
-                Nombre = userDto.Name
+                Nombre = userDto.Nombre
             };
 
             return await _userRepository.Create(user);
@@ -52,7 +52,7 @@ namespace TicketPlatform.Core.Services
             {
                 Id = userDto.Id,
                 Cedula = userDto.Cedula,
-                Nombre = userDto.Name
+                Nombre = userDto.Nombre
             };
 
             return await _userRepository.Update(user);
